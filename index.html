@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>VoiceStack</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <script src="jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="text-center">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="masthead">
+        <div class="inner">
+            <h3 class="masthead-brand">VoiceStack</h3>
+            <nav class="nav nav-masthead justify-content-center">
+                <a class="nav-link active" href="#">Home</a>
+                <a class="nav-link" href="#">Data</a>
+            </nav>
+        </div>
+    </header>
+
+    <main role="main" class="cover app">
+        <h1 class="cover-heading">VoiceStack</h1>
+        <p class="lead">A tiny app that makes wonders with your voice</p>
+        <div class="lead form-group">
+            <input id="note-textarea" placeholder="Type here or use your voice"/>
+        </div>
+        <h3 class="lead no-browser-support">Sorry, Your Browser Doesn't Support the Web Speech API. Try Opening This Demo In
+            Google Chrome.</h3>
+        <p class="lead">
+            <button class="btn btn-success" id="main-btn">Start Recognition</button>
+            <button class="btn btn-secondary" id="save-note-btn" title="Save Note">Save Note</button>
+        </p>
+        
+        <ul id="notes">
+            <li>
+                <p class="no-notes">You don't have any IDs yet.</p>
+            </li>
+        </ul>
+    </main>
+
+    <footer class="mastfoot mt-auto">
+        <div class="inner">
+            <p id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</div>
+</body>
+</html>
