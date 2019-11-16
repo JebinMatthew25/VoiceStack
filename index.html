@@ -7,44 +7,48 @@
     <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css">
     <script src="jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="fontawesome-free-5.11.2-web/css/all.css">
+    
 </head>
 
 <body class="text-center">
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="masthead">
         <div class="inner">
-            <h3 class="masthead-brand">VoiceStack</h3>
-            <nav class="nav nav-masthead justify-content-center">
-                <a class="nav-link active" href="#">Home</a>
-                <a class="nav-link" href="#">Data</a>
-            </nav>
+            <h3 class="masthead-brand">
+                VoiceStack
+<!--                <span class="spinner-grow text-light"></span>-->
+            </h3>
+<!--            <nav class="nav nav-masthead justify-content-center">-->
+<!--                <a class="nav-link active" href="#">Home</a>-->
+<!--                <a class="nav-link" href="#">Data</a>-->
+<!--            </nav>-->
         </div>
+        <!--        <nav class="navbar fixed-top" style="background-color: #333333;">-->
+        <!--            <h1 class="navbar-brand">VoiceStack</h1>-->
+        <!--            <p class="navbar-text" id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>-->
+        <!--        </nav>-->
+<!--        <h6 class="translucent">Make wonders with your voice</h6>-->
     </header>
 
     <main role="main" class="cover app">
-        <h1 class="cover-heading">VoiceStack</h1>
-        <p class="lead">A tiny app that makes wonders with your voice</p>
-        <div class="lead form-group">
-            <input id="note-textarea" placeholder="Type here or use your voice"/>
+        <div class="lead form-group row">
+            <input class="form-control" id="note-textarea" placeholder="voice input goes here"/>
         </div>
-        <h3 class="lead no-browser-support">Sorry, Your Browser Doesn't Support the Web Speech API. Try Opening This Demo In
-            Google Chrome.</h3>
-        <p class="lead">
-            <button class="btn btn-success" id="main-btn">Start Recognition</button>
-            <button class="btn btn-secondary" id="save-note-btn" title="Save Note">Save Note</button>
-        </p>
-        
-        <ul id="notes">
-            <li>
-                <p class="no-notes">You don't have any IDs yet.</p>
-            </li>
-        </ul>
+        <h3 class="lead no-browser-support">Sorry, Your Browser Doesn't Support the Web Speech API. Try Opening This Demo In Google Chrome.</h3>
+<!--        <div style="overflow-y: scroll;">-->
+            <ul class="list-group" id="notes">
+                <li>
+                    <p class="no-notes">You don't have any IDs yet.</p>
+                </li>
+            </ul>
+<!--        </div>-->
     </main>
 
-    <footer class="mastfoot mt-auto">
-        <div class="inner">
-            <p id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>
-        </div>
+    <footer class="mt-auto">
+        <button class="btn btn-success" id="main-btn">Start Recognition</button>
+        <button class="btn btn-secondary" id="save-note-btn">Save Note</button>
+        <p class="translucent" style="padding-top:1rem" id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>
     </footer>
     <script src="script.js"></script>
 </div>

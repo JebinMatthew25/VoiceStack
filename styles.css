@@ -4,16 +4,6 @@ a:hover {
     color: #fff;
 }
 
-.btn-secondary,
-.btn-secondary:hover,
-.btn-secondary:focus {
-    color: #333;
-    text-shadow: none; /* Prevent inheritance from `body` */
-    background-color: #fff;
-    border: .05rem solid #fff;
-}
-
-
 html,
 body {
     height: 100%;
@@ -75,13 +65,10 @@ body {
 .cover {
     padding: 0 1.5rem;
 }
+
 .cover .btn-lg {
     padding: .75rem 1.25rem;
     font-weight: 700;
-}
-
-.mastfoot {
-    color: rgba(255, 255, 255, .5);
 }
 
 .no-browser-support {
@@ -89,4 +76,13 @@ body {
     font-size: 1.2rem;
     color: #e64427;
     margin-top: 35px;
+}
+
+.translucent {
+    color: #ffffff88;
+}
+
+li {
+    padding-top: 0;
+    padding-bottom: 0;
 }
