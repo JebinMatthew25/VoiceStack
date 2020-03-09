@@ -15,6 +15,7 @@ try {
 let noteTextarea = $('#note-textarea');
 let instructions = $('#recording-instructions');
 let notesList = $('ul#notes');
+let logDiv = $('#log');
 
 let noteContent = '';
 
@@ -22,6 +23,18 @@ let noteContent = '';
 let notes = getAllNotes();
 renderNotes(notes);
 
+const MessageType = {
+    PRIMARY: "primary",
+    WARNING: "warning",
+    SUCCESS: "success",
+    DANGER: "danger",
+    INFO: "info"
+};
+
+function log(level, msg) {
+    logDiv.removeClass().addClass("alert alert-" + level);
+    instructions.text(msg)
+}
 
 /*-----------------------------
       Voice Recognition 
@@ -56,77 +69,91 @@ recognition.onresult = function (event) {
 };
 
 recognition.onstart = function () {
-    instructions.text('Voice recognition activated. Try speaking into the microphone.');
+    console.log('onstart');
+    log(MessageType.SUCCESS, 'Voice recognition activated. Try speaking into the microphone.');
+};
+
+recognition.onsoundstart = function () {
+    console.log('onsoundstart');
+    log(MessageType.SUCCESS, 'Voice recognition activated. Try speaking into the microphone.');
+};
+
+recognition.onaudiostart = function () {
+    console.log('onaudiostart');
+    log(MessageType.SUCCESS, 'Voice recognition activated. Try speaking into the microphone.');
 };
 
 recognition.onspeechstart = function () {
-    setState(states.SPEECH_START);
+    console.log('onspeechstart');
+    log(MessageType.SUCCESS, "Speech Detected! Keep speaking!");
+};
+
+recognition.onend = function () {
+    console.log('onend');
+    log(MessageType.WARNING, 'Press the button to start again');
+};
+
+recognition.onsoundend = function () {
+    console.log('onsoundend');
+    log(MessageType.SUCCESS, 'Voice recognition activated. Try speaking into the microphone.');
+};
+
+recognition.onaudioend = function () {
+    console.log('onaudioend');
+    log(MessageType.SUCCESS, 'Voice recognition activated. Try speaking into the microphone.');
 };
 
 recognition.onspeechend = function () {
-    if (btnState === states.RECORDING) {
-        instructions.text('You were quiet for a while so voice recognition turned itself off.');
-        setState(states.STOPPED);
-    }
+    console.log('onspeechend');
+    onRecEnd();
+    log(MessageType.INFO, 'Speech Ended');
 };
 
 recognition.onerror = function (event) {
+    console.log('onerror');
     if (event.error === 'no-speech') {
-        instructions.text('No speech was detected. Try again.');
-        setState(states.STOPPED);
+        log(MessageType.DANGER, 'No speech was detected. Try again.');
     }
+    onRecEnd()
 };
 
+recognition.onnomatch = function (event) {
+    console.log('onnomatch');
+    if (event.error === 'no-speech') {
+        log(MessageType.DANGER, 'No speech was detected. Try again.');
+    }
+    onRecEnd()
+};
 
 /*-----------------------------
       App buttons and input 
 ------------------------------*/
 const mainBtn = $('#main-btn');
-const states = {
-    RECORDING: 1,
-    STOPPED: 2,
-    LISTENING: 3,
-    SPEECH_START: 4
-};
+let isRecOn = false;
 
-let btnState = states.STOPPED;
-
-function setState(state) {
-    btnState = state;
-    switch (state) {
-        case states.RECORDING:
-            mainBtn.removeClass('btn-warning btn-success').addClass('btn-danger');
-            mainBtn.html('Stop Recording');
-            if (noteContent.length) {
-                noteContent += ' ';
-            }
-            recognition.start();
-            setState(states.LISTENING);
-            break;
-        case states.STOPPED:
-            mainBtn.removeClass('btn-danger btn-warning').addClass('btn-success');
-            mainBtn.html('Start Recording');
-            recognition.stop();
-            break;
-        case states.LISTENING:
-            mainBtn.removeClass('btn-success btn-danger').addClass('btn-primary');
-            mainBtn.html('Listening...');
-            break;
-        case states.SPEECH_START:
-            mainBtn.removeClass('btn-success btn-danger').addClass('btn-primary');
-            mainBtn.html('Processing...');
-            break;
-        default:
-            throw new DOMException()
+function onRecStart() {
+    isRecOn = true;
+    mainBtn.removeClass('btn-warning btn-success').addClass('btn-danger');
+    mainBtn.html('Stop Recording');
+    if (noteContent.length) {
+        noteContent += ' ';
     }
+    recognition.start();
+}
+
+function onRecEnd() {
+    recognition.stop();
+    isRecOn = false;
+    mainBtn.removeClass('btn-danger btn-warning').addClass('btn-success');
+    mainBtn.html('Start Recording');
 }
 
 mainBtn.on('click', function (e) {
-    if (btnState !== states.STOPPED) {
-        setState(states.STOPPED);
-        instructions.text('Voice recognition paused.');
+    if (!isRecOn) {
+        onRecStart();
     } else {
-        setState(states.RECORDING);
+        onRecEnd();
+        log(MessageType.WARNING, 'Voice recognition paused.');
     }
 });
 
@@ -140,7 +167,7 @@ $('#save-note-btn').on('click', function (e) {
     recognition.stop();
 
     if (!noteContent.length) {
-        instructions.text('Could not save empty note. Please add a message to your note.');
+        log(MessageType.DANGER, 'Could not save non-numeric data');
     } else {
         // Save note to localStorage.
         // The key is the dateTime with seconds, the value is the content of the note.
@@ -150,7 +177,7 @@ $('#save-note-btn').on('click', function (e) {
         noteContent = '';
         renderNotes(getAllNotes());
         noteTextarea.val('');
-        instructions.text('Note saved successfully.');
+        log(MessageType.SUCCESS, 'Note saved successfully.');
     }
 
 });
@@ -180,7 +207,7 @@ notesList.on('click', function (e) {
 ------------------------------*/
 
 function readOutLoud(message) {
-    var speech = new SpeechSynthesisUtterance();
+    let speech = new SpeechSynthesisUtterance();
 
     // Set the text and voice attributes.
     speech.text = message;
@@ -197,7 +224,7 @@ function readOutLoud(message) {
 ------------------------------*/
 
 function renderNotes(notes) {
-    var html = '';
+    let html = '';
     if (notes.length) {
         notes.forEach(function (note) {
             html +=

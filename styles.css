@@ -1,8 +1,8 @@
 a,
-a:focus,
-a:hover {
-    color: #fff;
-}
+ a:focus,
+ a:hover {
+     color: #fff;
+ }
 
 html,
 body {
@@ -82,7 +82,9 @@ body {
     color: #ffffff88;
 }
 
-li {
+li, p {
     padding-top: 0;
     padding-bottom: 0;
+    margin-bottom: 0;
+    margin-top: 0;
 }
